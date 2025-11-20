@@ -1,3 +1,6 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+
 public class SolitaireInput : MonoBehaviour
 {
     private Solitaire solitaire;
@@ -5,9 +8,9 @@ public class SolitaireInput : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        solitaire = FindAnyObjectByType<Solitaire>();   
+        solitaire = FindAnyObjectByType<Solitaire>();
     }
-    
+
     void OnBurst(InputValue value)
     {
         //Debug.Log("Burst");
@@ -17,7 +20,6 @@ public class SolitaireInput : MonoBehaviour
         Collider2D hit = Physics2D.OverlapPoint(worldPosition);
         if (hit != null)
         {
-            if (hit.CompareTag("Deck")) solitaire.DrawFromDeck();
             if (hit.CompareTag("Card"))
             {
                 //Debug.Log("Card clicked: " + hit.name);

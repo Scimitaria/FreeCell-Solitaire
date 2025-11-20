@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class CardSprite : MonoBehaviour
 {
     public Sprite cardFace, cardBack;
@@ -12,7 +14,7 @@ public class CardSprite : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isFaceUp)spriteRenderer.sprite = cardFace;
+        if (isFaceUp) spriteRenderer.sprite = cardFace;
         else spriteRenderer.sprite = cardBack;
     }
 }

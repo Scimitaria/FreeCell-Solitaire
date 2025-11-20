@@ -1,21 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
 public class Solitaire : MonoBehaviour
 {
-    public String[] suits = { "C", "D", "H", "S" };
-    public String[] ranks = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+    public string[] suits = { "C", "D", "H", "S" };
+    public string[] ranks = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
     public Sprite[] cardFaces;
     public Sprite cardBack, emptyPlace;
     public GameObject[] foundationPositions, tableauPositions;
-    public GameObject deckPosition, wastePosition, cardPrefab;
-    public List<string> deck, waste;
+    public GameObject cardPrefab;
+    public List<string> deck;
     public List<string>[] foundations, tableaus;
     public List<string> foundation0, foundation1, foundation2, foundation3 = new List<string>();
     public List<string> tableau0, tableau1, tableau2, tableau3, tableau4, tableau5, tableau6 = new List<string>();
     private System.Random rng = new System.Random();
     private Vector3 cardOffset = new Vector3(0f, -.3f, -0.1f);
-    private float zOffset = -.3f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        tableau0.Add("");
         tableaus = new List<string>[] { tableau0, tableau1, tableau2, tableau3, tableau4, tableau5, tableau6 };
         foundations = new List<string>[] { foundation0, foundation1, foundation2, foundation3 };
         PlayGame();
@@ -80,42 +85,6 @@ public class Solitaire : MonoBehaviour
         newCard.GetComponent<CardSprite>().cardFace = cardFace;
         newCard.GetComponent<CardSprite>().isFaceUp = isFaceUp;
     }
-
-    public void DrawFromDeck()
-    {
-        //Debug.Log("Drawing from deck");
-        if (deck.Count == 0)
-        {
-            while (waste.Count > 0)
-            {
-                string card = waste.Last();
-                waste.RemoveAt(waste.Count - 1);
-                deck.Add(card);
-            }
-            foreach (Transform child in wastePosition.transform) Destroy(child.gameObject);
-            zOffset = -.3f;
-            deckPosition.transform.GetComponent<SpriteRenderer>().sprite = cardBack;
-            return;
-        }
-
-        // need to reset x position for all cards not in the drawn set of 3
-        foreach (Transform child in wastePosition.transform)
-            child.transform.position = new Vector3(wastePosition.transform.position.x, child.transform.position.y, child.transform.position.z);
-        int cardsToDraw = Math.Min(3, deck.Count);
-        for (int i = 0; i < cardsToDraw; i++)
-        {
-            string card = deck.Last();
-            deck.RemoveAt(deck.Count - 1);
-            waste.Add(card);
-            CreateCard(card, wastePosition.transform.position + new Vector3(i * 0.3f, 0, zOffset), wastePosition.transform, true);
-            zOffset -= .3f;
-        }
-        
-        //Debug.Log("Deck count: " + deck.Count);
-        //show empty deck
-        if (deck.Count == 0) deckPosition.transform.GetComponent<SpriteRenderer>().sprite = emptyPlace;
-    }
-
     public bool IsValidMove(GameObject cardObject, GameObject targetObject)
     {
         if (cardObject == targetObject || cardObject == null || targetObject == null) return false;
@@ -180,7 +149,7 @@ public class Solitaire : MonoBehaviour
         List<string> origTab = tableaus[originalTabIndex];
         int origCount = origTab.Count;
         int origIndex = origCount - cardsToMoveCount + 1;
-        for (int i = 0; i < cardsToMoveCount -1 ; i++)
+        for (int i = 0; i < cardsToMoveCount - 1; i++)
         {
             string movingCardName = origTab[origIndex];
             origTab.RemoveAt(origIndex);
@@ -194,14 +163,14 @@ public class Solitaire : MonoBehaviour
                     break;
                 }
             }
-            if(movingCardObj!=null)
+            if (movingCardObj != null)
             {
                 movingCardObj.transform.parent = clickedTag.transform;
                 movingCardObj.transform.position = cardObject.transform.position + (cardOffset * (i + 1));
             }
         }
     }
-    
+
     public void PlaceCard(GameObject cardObject, GameObject targetObject)
     {
         if (cardObject == targetObject || cardObject == null || targetObject == null) return;
@@ -222,11 +191,6 @@ public class Solitaire : MonoBehaviour
                     break;
                 }
             }
-        }
-
-        if (cardObject.transform.parent.CompareTag("Waste"))
-        {
-            waste.Remove(cardObject.name);
         }
         // if coming from foundation, remove card from correct foundation
         if (cardObject.transform.parent.CompareTag("Foundation"))
@@ -268,7 +232,7 @@ public class Solitaire : MonoBehaviour
 
     public bool IsLastInTab(GameObject cardObject)
     {
-        foreach(List<string> tab in tableaus)
+        foreach (List<string> tab in tableaus)
         {
             if (tab.Count > 0 && tab.Last() == cardObject.name)
             {
