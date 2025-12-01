@@ -41,20 +41,10 @@ public class SolitaireInput : MonoBehaviour
                         return;
                     }
                 }
-                // if face down, flip it
-                if (!hit.gameObject.GetComponent<CardSprite>().isFaceUp && solitaire.IsLastInTab(hit.gameObject))
-                {
-                    hit.gameObject.GetComponent<CardSprite>().isFaceUp = true;
-                    return;
-                }
-                // if face up, select it
-                else if (hit.gameObject.GetComponent<CardSprite>().isFaceUp)
-                {
-                    if (hit.gameObject.transform.parent.CompareTag("Waste") && solitaire.IsBlocked(hit.gameObject)) return;
-                    //Debug.Log("Card selected: " + hit.name);
-                    selectedCard = hit.gameObject;
-                    selectedCard.GetComponent<SpriteRenderer>().color = Color.gray;
-                }
+                if (hit.gameObject.transform.parent.CompareTag("Waste") && solitaire.IsBlocked(hit.gameObject)) return;
+                //Debug.Log("Card selected: " + hit.name);
+                selectedCard = hit.gameObject;
+                selectedCard.GetComponent<SpriteRenderer>().color = Color.gray;
             }
             if (hit.CompareTag("Tableau"))
             {

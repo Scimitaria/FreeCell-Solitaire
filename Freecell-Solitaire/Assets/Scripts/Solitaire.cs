@@ -20,7 +20,6 @@ public class Solitaire : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        tableau0.Add("");
         tableaus = new List<string>[] { tableau0, tableau1, tableau2, tableau3, tableau4, tableau5, tableau6, tableau7 };
         foundations = new List<string>[] { foundation0, foundation1, foundation2, foundation3 };
         PlayGame();
@@ -46,19 +45,20 @@ public class Solitaire : MonoBehaviour
     {
         //Debug.Log("Dealing cards...");
         int tabIndex = 0;
-        int cardIndex = 0;
+        List<string> currentTab;
         for (int i = deck.Count - 1; i >= 0; i--)
         {
+            if (tabIndex > 7) break;
             string card = deck[i];
-            if (tabIndex > 6) break;
+            currentTab=tableaus[tabIndex];
+            
+
             deck.RemoveAt(i);
-            tableaus[tabIndex].Add(card);
-            if (tabIndex == cardIndex)
-            {
-                cardIndex = 0;
-                tabIndex++;
-            }
-            else cardIndex++;
+            currentTab.Add(card);
+
+            //blursed af logic, do not touch
+            if(tabIndex < 4) {if(currentTab.Count >= 7) tabIndex++;}
+            else if(currentTab.Count >= 6) tabIndex++;
         }
 
         foreach (GameObject tabPosition in tableauPositions)
@@ -66,26 +66,23 @@ public class Solitaire : MonoBehaviour
             //Debug.Log("Dealing to tableau position " + tabPosition.name);
             int index = Array.IndexOf(tableauPositions, tabPosition);
             Vector3 currentPosition = tabPosition.transform.position + new Vector3(0, 0, -.1f);
-            foreach (string card in tableaus[index])//tableau 7 is empty so this line errs, what gives?
+            foreach (string card in tableaus[index])
             {
                 //Debug.Log("Dealing card " + card + " to tableau " + index);
                 // create card
-                CreateCard(card, currentPosition, tabPosition.transform, card == tableaus[index].Last());
+                CreateCard(card, currentPosition, tabPosition.transform);
                 currentPosition += cardOffset;
             }
         }
     }
 
-    void CreateCard(string cardName, Vector3 position, Transform parent, bool isFaceUp)
+    void CreateCard(string cardName, Vector3 position, Transform parent)
     {
-        Debug.Log("Creating card " + cardName + " at " + position);
+        //Debug.Log("Creating card " + cardName + " at " + position);
         GameObject newCard = Instantiate(cardPrefab, position, Quaternion.identity, parent);
         newCard.name = cardName;
-        Sprite cardFace = cardFaces.FirstOrDefault(s => GetName(s.name) == cardName);
-        foreach(Sprite card in cardFaces)Debug.Log(card.name);
-        if(cardFace is null)Debug.Log(cardName + " is null");
+        Sprite cardFace = cardFaces.FirstOrDefault(s => GetName(s.name) == cardName) ?? throw new ArgumentNullException(cardName + " is missing a face");
         newCard.GetComponent<CardSprite>().cardFace = cardFace;
-        newCard.GetComponent<CardSprite>().isFaceUp = isFaceUp;
     }
 
     string GetName(string card_name)
@@ -103,7 +100,6 @@ public class Solitaire : MonoBehaviour
         for(int i=0; i< card_name.Length-1; i++) if(Char.IsDigit(card_name[i])) num += card_name[i];
         if(num.Length>0)val = int.Parse(num);
         else throw new ArgumentNullException("number not found");
-        Debug.Log(val);
         newName+=ranks[val-1];
 
         return newName;
