@@ -81,10 +81,34 @@ public class Solitaire : MonoBehaviour
         Debug.Log("Creating card " + cardName + " at " + position);
         GameObject newCard = Instantiate(cardPrefab, position, Quaternion.identity, parent);
         newCard.name = cardName;
-        Sprite cardFace = cardFaces.FirstOrDefault(s => s.name == cardName);
+        Sprite cardFace = cardFaces.FirstOrDefault(s => GetName(s.name) == cardName);
+        foreach(Sprite card in cardFaces)Debug.Log(card.name);
+        if(cardFace is null)Debug.Log(cardName + " is null");
         newCard.GetComponent<CardSprite>().cardFace = cardFace;
         newCard.GetComponent<CardSprite>().isFaceUp = isFaceUp;
     }
+
+    string GetName(string card_name)
+    {
+        string newName = "";
+        string num = "";
+        int val;
+
+        if(card_name.Contains("Diamonds"))newName+='D';
+        else if(card_name.Contains("Clubs"))newName+='C';
+        else if(card_name.Contains("Hearts"))newName+='H';
+        else if(card_name.Contains("Spades"))newName+='S';
+        else throw new ArgumentNullException("suite not found");
+
+        for(int i=0; i< card_name.Length-1; i++) if(Char.IsDigit(card_name[i])) num += card_name[i];
+        if(num.Length>0)val = int.Parse(num);
+        else throw new ArgumentNullException("number not found");
+        Debug.Log(val);
+        newName+=ranks[val-1];
+
+        return newName;
+    }
+
     public bool IsValidMove(GameObject cardObject, GameObject targetObject)
     {
         if (cardObject == targetObject || cardObject == null || targetObject == null) return false;
