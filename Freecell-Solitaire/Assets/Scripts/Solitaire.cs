@@ -14,14 +14,14 @@ public class Solitaire : MonoBehaviour
     public List<string> deck;
     public List<string>[] foundations, tableaus;
     public List<string> foundation0, foundation1, foundation2, foundation3 = new List<string>();
-    public List<string> tableau0, tableau1, tableau2, tableau3, tableau4, tableau5, tableau6 = new List<string>();
+    public List<string> tableau0, tableau1, tableau2, tableau3, tableau4, tableau5, tableau6, tableau7 = new List<string>();
     private System.Random rng = new System.Random();
     private Vector3 cardOffset = new Vector3(0f, -.3f, -0.1f);
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         tableau0.Add("");
-        tableaus = new List<string>[] { tableau0, tableau1, tableau2, tableau3, tableau4, tableau5, tableau6 };
+        tableaus = new List<string>[] { tableau0, tableau1, tableau2, tableau3, tableau4, tableau5, tableau6, tableau7 };
         foundations = new List<string>[] { foundation0, foundation1, foundation2, foundation3 };
         PlayGame();
     }
@@ -44,7 +44,7 @@ public class Solitaire : MonoBehaviour
 
     void Deal()
     {
-        Debug.Log("Dealing cards...");
+        //Debug.Log("Dealing cards...");
         int tabIndex = 0;
         int cardIndex = 0;
         for (int i = deck.Count - 1; i >= 0; i--)
@@ -63,12 +63,12 @@ public class Solitaire : MonoBehaviour
 
         foreach (GameObject tabPosition in tableauPositions)
         {
-            Debug.Log("Dealing to tableau position " + tabPosition.name);
+            //Debug.Log("Dealing to tableau position " + tabPosition.name);
             int index = Array.IndexOf(tableauPositions, tabPosition);
             Vector3 currentPosition = tabPosition.transform.position + new Vector3(0, 0, -.1f);
-            foreach (string card in tableaus[index])
+            foreach (string card in tableaus[index])//tableau 7 is empty so this line errs, what gives?
             {
-                Debug.Log("Dealing card " + card + " to tableau " + index);
+                //Debug.Log("Dealing card " + card + " to tableau " + index);
                 // create card
                 CreateCard(card, currentPosition, tabPosition.transform, card == tableaus[index].Last());
                 currentPosition += cardOffset;
