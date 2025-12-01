@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6183410989651084664}
   m_Layer: 0
   m_Name: Card
-  m_TagString: Untagged
+  m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -179,5 +179,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CardSprite
   cardFace: {fileID: 0}
-  cardBack: {fileID: -5739126946767938233, guid: dd8ffd6b523b940229f59187a67d4c3e, type: 3}
-  isFaceUp: 0

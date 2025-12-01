@@ -22,7 +22,7 @@ public class SolitaireInput : MonoBehaviour
         {
             if (hit.CompareTag("Card"))
             {
-                //Debug.Log("Card clicked: " + hit.name);
+                Debug.Log("Card clicked: " + hit.name);
                 if (selectedCard != null)
                 {
                     if (selectedCard == hit.gameObject)
@@ -42,7 +42,7 @@ public class SolitaireInput : MonoBehaviour
                     }
                 }
                 if (hit.gameObject.transform.parent.CompareTag("Waste") && solitaire.IsBlocked(hit.gameObject)) return;
-                //Debug.Log("Card selected: " + hit.name);
+                Debug.Log("Card selected: " + hit.name);
                 selectedCard = hit.gameObject;
                 selectedCard.GetComponent<SpriteRenderer>().color = Color.gray;
             }

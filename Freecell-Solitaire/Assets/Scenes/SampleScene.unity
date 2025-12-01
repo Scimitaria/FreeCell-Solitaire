@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 113837534}
   m_Layer: 0
   m_Name: tableau (2)
-  m_TagString: Untagged
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 273599312}
   m_Layer: 0
   m_Name: tableau (5)
-  m_TagString: Untagged
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -311,7 +311,7 @@ GameObject:
   - component: {fileID: 380343070}
   m_Layer: 0
   m_Name: tableau (3)
-  m_TagString: Untagged
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -401,7 +401,7 @@ GameObject:
   - component: {fileID: 398174567}
   m_Layer: 0
   m_Name: foundation_2
-  m_TagString: Untagged
+  m_TagString: Foundation
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -581,7 +581,7 @@ GameObject:
   - component: {fileID: 514763040}
   m_Layer: 0
   m_Name: tableau (4)
-  m_TagString: Untagged
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -892,7 +892,7 @@ GameObject:
   - component: {fileID: 998604532}
   m_Layer: 0
   m_Name: tableau (6)
-  m_TagString: Untagged
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1020,6 +1020,8 @@ GameObject:
   - component: {fileID: 1131700181}
   - component: {fileID: 1131700180}
   - component: {fileID: 1131700182}
+  - component: {fileID: 1131700184}
+  - component: {fileID: 1131700183}
   m_Layer: 0
   m_Name: background
   m_TagString: Untagged
@@ -1214,6 +1216,48 @@ MonoBehaviour:
   tableau5: []
   tableau6: []
   tableau7: []
+--- !u!114 &1131700183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131700179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
+  m_Actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: 
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &1131700184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131700179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4d6068d7b8c64493aaca2f7f77a2709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SolitaireInput
 --- !u!1 &1338544255
 GameObject:
   m_ObjectHideFlags: 0
@@ -1441,7 +1485,7 @@ GameObject:
   - component: {fileID: 1622909689}
   m_Layer: 0
   m_Name: tableau (1)
-  m_TagString: Untagged
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1531,7 +1575,7 @@ GameObject:
   - component: {fileID: 1671917054}
   m_Layer: 0
   m_Name: foundation
-  m_TagString: Untagged
+  m_TagString: Foundation
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1621,7 +1665,7 @@ GameObject:
   - component: {fileID: 1706379997}
   m_Layer: 0
   m_Name: foundation_3
-  m_TagString: Untagged
+  m_TagString: Foundation
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1711,7 +1755,7 @@ GameObject:
   - component: {fileID: 1769107343}
   m_Layer: 0
   m_Name: foundation_1
-  m_TagString: Untagged
+  m_TagString: Foundation
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1801,7 +1845,7 @@ GameObject:
   - component: {fileID: 1950780551}
   m_Layer: 0
   m_Name: tableau
-  m_TagString: Untagged
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2016,7 +2060,7 @@ GameObject:
   - component: {fileID: 2037267572}
   m_Layer: 0
   m_Name: tableau (7)
-  m_TagString: Untagged
+  m_TagString: Tableau
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
