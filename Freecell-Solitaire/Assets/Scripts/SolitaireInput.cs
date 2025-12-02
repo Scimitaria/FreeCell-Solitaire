@@ -19,20 +19,6 @@ public class SolitaireInput : MonoBehaviour
         //Debug.Log(worldPosition);
         Collider2D hit = Physics2D.OverlapPoint(worldPosition);
 
-        // check if move is valid
-        // if valid, move card
-        void Move()
-        {
-            if (solitaire.IsValidMove(selectedCard, hit.gameObject))
-            {
-                //Debug.Log("valid move from " + selectedCard + " to " + hit.gameObject.name);
-                solitaire.PlaceCard(selectedCard, hit.gameObject);
-                selectedCard.GetComponent<SpriteRenderer>().color = Color.white;
-                selectedCard = null;
-                return;
-            }
-        }
-
         if (hit != null)
         {
             if (hit.CompareTag("Card"))
@@ -46,26 +32,59 @@ public class SolitaireInput : MonoBehaviour
                         selectedCard = null;
                         return;
                     }
-                    Move();
+                    if (solitaire.IsValidMove(selectedCard, hit.gameObject))
+                    {
+                        //Debug.Log("valid move from " + selectedCard + " to " + hit.gameObject.name);
+                        solitaire.PlaceCard(selectedCard, hit.gameObject);
+                    }
+                    selectedCard.GetComponent<SpriteRenderer>().color = Color.white;
+                    selectedCard = null;
+                    return;
                 }
-                Debug.Log("Card selected: " + hit.name);
+                if(solitaire.IsBlocked(hit.gameObject))return;
+                //Debug.Log("Card selected: " + hit.name);
                 selectedCard = hit.gameObject;
                 selectedCard.GetComponent<SpriteRenderer>().color = Color.gray;
             }
             if (hit.CompareTag("Tableau"))
             {
                 //Debug.Log("Tableau clicked: " + hit.name);
-                Move();
+                if (solitaire.IsValidMove(selectedCard, hit.gameObject))
+                {
+                    //Debug.Log("valid move from " + selectedCard + " to " + hit.gameObject.name);
+                    solitaire.PlaceCard(selectedCard, hit.gameObject);
+                    selectedCard.GetComponent<SpriteRenderer>().color = Color.white;
+                    selectedCard = null;
+                    return;
+                }
             }
             if (hit.CompareTag("Freecell"))
             {
                 Debug.Log("Free cell clicked: " + hit.name);
-                Move();
+                if (solitaire.IsValidMove(selectedCard, hit.gameObject))
+                {
+                    //Debug.Log("valid move from " + selectedCard + " to " + hit.gameObject.name);
+                    solitaire.PlaceCard(selectedCard, hit.gameObject);
+                    selectedCard.GetComponent<SpriteRenderer>().color = Color.white;
+                    selectedCard = null;
+                    return;
+                } else
+                {
+                    selectedCard.GetComponent<SpriteRenderer>().color = Color.white;
+                    selectedCard = null;
+                }
             }
             if (hit.CompareTag("Foundation"))
             {
                 //Debug.Log("Foundation clicked: " + hit.name);
-                Move();
+                if (solitaire.IsValidMove(selectedCard, hit.gameObject))
+                {
+                    //Debug.Log("valid move from " + selectedCard + " to " + hit.gameObject.name);
+                    solitaire.PlaceCard(selectedCard, hit.gameObject);
+                    selectedCard.GetComponent<SpriteRenderer>().color = Color.white;
+                    selectedCard = null;
+                    return;
+                }
             }
         }
     }
