@@ -9,10 +9,11 @@ public class Solitaire : MonoBehaviour
     public string[] ranks = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
     public Sprite[] cardFaces;
     public Sprite cardBack, emptyPlace;
-    public GameObject[] foundationPositions, tableauPositions;
+    public GameObject[] foundationPositions, tableauPositions, freecellPositions;
     public GameObject cardPrefab;
     public List<string> deck;
-    public List<string>[] foundations, tableaus;
+    public List<string>[] foundations, tableaus, freecells;
+    public List<string> freecell0, freecell1, freecell2, freecell3 = new List<string>();
     public List<string> foundation0, foundation1, foundation2, foundation3 = new List<string>();
     public List<string> tableau0, tableau1, tableau2, tableau3, tableau4, tableau5, tableau6, tableau7 = new List<string>();
     private System.Random rng = new System.Random();
@@ -22,6 +23,7 @@ public class Solitaire : MonoBehaviour
     {
         tableaus = new List<string>[] { tableau0, tableau1, tableau2, tableau3, tableau4, tableau5, tableau6, tableau7 };
         foundations = new List<string>[] { foundation0, foundation1, foundation2, foundation3 };
+        freecells = new List<string>[] { freecell0, freecell1, freecell2, freecell3 };
         PlayGame();
     }
 
@@ -110,8 +112,8 @@ public class Solitaire : MonoBehaviour
         if (cardObject == targetObject || cardObject == null || targetObject == null) return false;
         ResolveTarget(targetObject, out GameObject clickedTag, out int foundationIndex, out int tabIndex);
 
-        // waste -> tab/foundation
-        if (cardObject.transform.parent.CompareTag("Waste"))
+        // free cell -> tab/foundation
+        if (cardObject.transform.parent.CompareTag("Freecell"))
         {
             if (clickedTag.transform.CompareTag("Tableau") && tabIndex >= 0)
             {
@@ -123,6 +125,7 @@ public class Solitaire : MonoBehaviour
                 //Debug.Log("can place on found: " + CanPlaceOnFoundation(cardObject.name, foundationIndex));
                 return CanPlaceOnFoundation(cardObject.name, foundationIndex);
             }
+            if (clickedTag.transform.CompareTag("Freecell"))return CanPlaceOnFreecell(cardObject);
             return false;
         }
 
@@ -134,6 +137,7 @@ public class Solitaire : MonoBehaviour
                 //Debug.Log("can place on tab from found: " + CanPlaceOnTableau(cardObject.name, tabIndex));
                 return CanPlaceOnTableau(cardObject.name, tabIndex);
             }
+            if (clickedTag.transform.CompareTag("Freecell"))return CanPlaceOnFreecell(cardObject);
             //Debug.Log("bad found to tab click");
             return false;
         }
@@ -156,6 +160,7 @@ public class Solitaire : MonoBehaviour
                 //Debug.Log("can place on found from tab: " + CanPlaceOnFoundation(cardObject.name, foundationIndex));
                 return CanPlaceOnFoundation(cardObject.name, foundationIndex);
             }
+            if (clickedTag.transform.CompareTag("Freecell"))return CanPlaceOnFreecell(cardObject);
             //Debug.Log("Bad tab to tab/found click");
             return false;
         }
@@ -223,6 +228,13 @@ public class Solitaire : MonoBehaviour
                 }
             }
         }
+        if (cardObject.transform.parent.CompareTag("Freecell"))
+        {
+            foreach(List<string> freecell in freecells)
+            {
+                if(freecell.Contains(cardObject.name)) freecell.Remove(cardObject.name);
+            }
+        }
 
         // if moving to tab, add the card to the correct tab
         if (clickedTag.transform.CompareTag("Tableau"))
@@ -245,6 +257,13 @@ public class Solitaire : MonoBehaviour
         {
             int fIndex = System.Array.IndexOf(foundationPositions, clickedTag);
             foundations[fIndex].Add(cardObject.name);
+            cardObject.transform.position = targetObject.transform.position + new Vector3(0f, 0f, -.03f);
+            cardObject.transform.parent = clickedTag.transform;
+        }
+        if (clickedTag.transform.CompareTag("Freecell"))
+        {
+            int cIndex = System.Array.IndexOf(freecellPositions, clickedTag);
+            freecells[cIndex].Add(cardObject.name);
             cardObject.transform.position = targetObject.transform.position + new Vector3(0f, 0f, -.03f);
             cardObject.transform.parent = clickedTag.transform;
         }
@@ -329,6 +348,11 @@ public class Solitaire : MonoBehaviour
         }
         string topCard = tableaus[tableauIndex].Last();
         return IsAlternatingColor(card, topCard) && IsOneRankLower(card, topCard);
+    }
+
+    public bool CanPlaceOnFreecell(GameObject card)
+    {
+        return !IsBlocked(card);
     }
 
     void ResolveTarget(GameObject toLocation, out GameObject clickedTag, out int foundationIndex, out int tableauIndex)

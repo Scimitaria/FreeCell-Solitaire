@@ -680,7 +680,7 @@ GameObject:
   - component: {fileID: 403210286}
   m_Layer: 0
   m_Name: freeCell (3)
-  m_TagString: Untagged
+  m_TagString: Freecell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1531,6 +1531,11 @@ MonoBehaviour:
   - {fileID: 273599311}
   - {fileID: 998604531}
   - {fileID: 2037267571}
+  freecellPositions:
+  - {fileID: 1578749821}
+  - {fileID: 1338544255}
+  - {fileID: 2011325989}
+  - {fileID: 403210283}
   cardPrefab: {fileID: 7878306103975332850, guid: ae75e23924eb34bb6a410614da1069c5, type: 3}
   deck: []
   foundation0: []
@@ -1600,7 +1605,7 @@ GameObject:
   - component: {fileID: 1338544258}
   m_Layer: 0
   m_Name: freeCell (1)
-  m_TagString: Untagged
+  m_TagString: Freecell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1772,7 +1777,7 @@ GameObject:
   - component: {fileID: 1578749824}
   m_Layer: 0
   m_Name: freeCell
-  m_TagString: Untagged
+  m_TagString: Freecell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2629,7 +2634,7 @@ GameObject:
   - component: {fileID: 2011325992}
   m_Layer: 0
   m_Name: freeCell (2)
-  m_TagString: Untagged
+  m_TagString: Freecell
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
