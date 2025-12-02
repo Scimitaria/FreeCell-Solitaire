@@ -16,10 +16,11 @@ public class SolitaireInput : MonoBehaviour
         //Debug.Log("Burst");
         Vector2 mousePosition = Mouse.current.position.ReadValue();
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, 0f));
-        //Debug.Log(worldPosition);
+        Debug.Log(worldPosition);
         Collider2D hit = Physics2D.OverlapPoint(worldPosition);
         if (hit != null)
         {
+            Debug.Log("reached");
             if (hit.CompareTag("Card"))
             {
                 Debug.Log("Card clicked: " + hit.name);
@@ -41,7 +42,6 @@ public class SolitaireInput : MonoBehaviour
                         return;
                     }
                 }
-                if (hit.gameObject.transform.parent.CompareTag("Waste") && solitaire.IsBlocked(hit.gameObject)) return;
                 Debug.Log("Card selected: " + hit.name);
                 selectedCard = hit.gameObject;
                 selectedCard.GetComponent<SpriteRenderer>().color = Color.gray;
