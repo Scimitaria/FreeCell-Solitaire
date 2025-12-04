@@ -60,7 +60,7 @@ public class SolitaireInput : MonoBehaviour
             }
             if (hit.CompareTag("Freecell"))
             {
-                Debug.Log("Free cell clicked: " + hit.name);
+                //Debug.Log("Free cell clicked: " + hit.name);
                 if (solitaire.IsValidMove(selectedCard, hit.gameObject))
                 {
                     //Debug.Log("valid move from " + selectedCard + " to " + hit.gameObject.name);
