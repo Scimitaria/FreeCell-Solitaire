@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using System.Linq;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ public class Solitaire : MonoBehaviour
     public Sprite[] cardFaces;
     public Sprite cardBack, emptyPlace;
     public GameObject[] foundationPositions, tableauPositions, freecellPositions;
-    public GameObject cardPrefab;
+    public GameObject cardPrefab,pausePanel;
     public List<string> deck;
     public List<string>[] foundations, tableaus, freecells;
     public List<string> freecell0, freecell1, freecell2, freecell3 = new List<string>();
@@ -364,5 +365,21 @@ public class Solitaire : MonoBehaviour
             foundationIndex = System.Array.IndexOf(foundationPositions, clickedTag);
         else if (clickedTag.transform.CompareTag("Tableau"))
             tableauIndex = System.Array.IndexOf(tableauPositions, clickedTag);
+    }
+
+    public void PauseToggle()
+    {
+        Time.timeScale = Time.timeScale == 0f ? 1f : 0f;
+        pausePanel.SetActive(!pausePanel.activeSelf);
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void Quit()
+    {
+        SceneManager.LoadScene("main menu");
     }
 }
