@@ -17,4 +17,9 @@ public class MenuScript : MonoBehaviour
         }
         Application.Quit();
     }
+
+    public void SetCards(int index)
+    {
+        PlayerPrefs.SetInt("faceIndex",index);
+    }
 }

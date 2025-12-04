@@ -8,7 +8,8 @@ public class Solitaire : MonoBehaviour
 {
     public string[] suits = { "C", "D", "H", "S" };
     public string[] ranks = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
-    public Sprite[] cardFaces;
+    public Sprite[] cardFaces,pixelCardFaces,darkCardFaces;
+    private Sprite[] faces;
     public Sprite cardBack, emptyPlace;
     public GameObject[] foundationPositions, tableauPositions, freecellPositions;
     public GameObject cardPrefab,pausePanel;
@@ -22,6 +23,10 @@ public class Solitaire : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        List<Sprite[]> faceList = new List<Sprite[]> { cardFaces, pixelCardFaces, darkCardFaces };
+        int? index = PlayerPrefs.GetInt("faceIndex");
+        int i = index ?? 2;
+        faces = faceList[i];
         tableaus = new List<string>[] { tableau0, tableau1, tableau2, tableau3, tableau4, tableau5, tableau6, tableau7 };
         foundations = new List<string>[] { foundation0, foundation1, foundation2, foundation3 };
         freecells = new List<string>[] { freecell0, freecell1, freecell2, freecell3 };
@@ -84,12 +89,13 @@ public class Solitaire : MonoBehaviour
         //Debug.Log("Creating card " + cardName + " at " + position);
         GameObject newCard = Instantiate(cardPrefab, position, Quaternion.identity, parent);
         newCard.name = cardName;
-        Sprite cardFace = cardFaces.FirstOrDefault(s => GetName(s.name) == cardName) ?? throw new ArgumentNullException(cardName + " is missing a face");
+        Sprite cardFace = faces.FirstOrDefault(s => GetName(s.name.Remove(s.name.Length-2)) == cardName) ?? throw new ArgumentNullException(cardName + " is missing a face");
         newCard.GetComponent<CardSprite>().cardFace = cardFace;
     }
 
     string GetName(string card_name)
     {
+        if(card_name.Length<8)return card_name;
         string newName = "";
         string num = "";
         int val;
@@ -100,7 +106,7 @@ public class Solitaire : MonoBehaviour
         else if(card_name.Contains("Spades"))newName+='S';
         else throw new ArgumentNullException("suite not found");
 
-        for(int i=0; i< card_name.Length-1; i++) if(Char.IsDigit(card_name[i])) num += card_name[i];
+        for(int i=0; i < card_name.Length; i++) if(Char.IsDigit(card_name[i])) num += card_name[i];
         if(num.Length>0)val = int.Parse(num);
         else throw new ArgumentNullException("number not found");
         newName+=ranks[val-1];
