@@ -12,7 +12,7 @@ public class Solitaire : MonoBehaviour
     private Sprite[] faces;
     public Sprite cardBack, emptyPlace;
     public GameObject[] foundationPositions, tableauPositions, freecellPositions;
-    public GameObject cardPrefab,pausePanel;
+    public GameObject cardPrefab,pausePanel,winPanel,pauseButton;
     public List<string> deck;
     public List<string>[] foundations, tableaus, freecells;
     public List<string> freecell0, freecell1, freecell2, freecell3 = new List<string>();
@@ -20,17 +20,25 @@ public class Solitaire : MonoBehaviour
     public List<string> tableau0, tableau1, tableau2, tableau3, tableau4, tableau5, tableau6, tableau7 = new List<string>();
     private System.Random rng = new System.Random();
     private Vector3 cardOffset = new Vector3(0f, -.3f, -0.1f);
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
         List<Sprite[]> faceList = new List<Sprite[]> { cardFaces, pixelCardFaces, darkCardFaces };
-        int? index = PlayerPrefs.GetInt("faceIndex");
-        int i = index ?? 2;
+        int i = PlayerPrefs.HasKey("faceIndex") ? PlayerPrefs.GetInt("faceIndex") : 2;
         faces = faceList[i];
         tableaus = new List<string>[] { tableau0, tableau1, tableau2, tableau3, tableau4, tableau5, tableau6, tableau7 };
         foundations = new List<string>[] { foundation0, foundation1, foundation2, foundation3 };
         freecells = new List<string>[] { freecell0, freecell1, freecell2, freecell3 };
+        foreach(List<string> foundation in foundations) for(int j=0;j<13;j++) foundation.Add("");
         PlayGame();
+    }
+
+    void FixedUpdate()
+    {
+        if(foundations.All(s => s.Count() >= 13)) {
+            pauseButton.SetActive(false);
+            winPanel.SetActive(true);
+        }
     }
 
     void PlayGame()
@@ -375,7 +383,7 @@ public class Solitaire : MonoBehaviour
 
     public void PauseToggle()
     {
-        Time.timeScale = Time.timeScale == 0f ? 1f : 0f;
+        Time.timeScale = Time.timeScale == 0 ? 1 : 0;
         pausePanel.SetActive(!pausePanel.activeSelf);
     }
 
