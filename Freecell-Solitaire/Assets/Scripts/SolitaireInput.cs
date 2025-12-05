@@ -81,6 +81,7 @@ public class SolitaireInput : MonoBehaviour
                 {
                     //Debug.Log("valid move from " + selectedCard + " to " + hit.gameObject.name);
                     solitaire.PlaceCard(selectedCard, hit.gameObject);
+                    selectedCard.GetComponent<Animator>().SetTrigger("wiggle");
                     selectedCard.GetComponent<SpriteRenderer>().color = Color.white;
                     selectedCard = null;
                     return;

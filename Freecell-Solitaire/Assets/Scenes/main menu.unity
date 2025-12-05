@@ -1069,8 +1069,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -762, y: 439}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0, y: 439}
+  m_SizeDelta: {x: 1000, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &755775129
 MonoBehaviour:
@@ -1092,8 +1092,25 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: fhewhfewkwnfxkjawfwekjanfngekuahndcw4ejrb da,ehjgnawkhnf vkehurn askghufnqjfhniuwkrhnakhn
-    flwihQJGHIU
+  m_text: 'There are eight card tableaus (center) which hold the cards initially.
+
+
+    The
+    four free cells (top left) can each hold one card at a time. Cards can freely
+    move to and from any empty free cell.
+
+
+    The four foundations (top right)
+    hold cards starting with aces and ascending in alternating colors (eg red ace,
+    black two, red three, etc).
+
+
+    Cards can likewise be moved from tableau to
+    tableau in descending alternating colors (eg a red three can be placed on a black
+    four).
+
+
+    The objective is to fill all of the foundations.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
