@@ -10,6 +10,7 @@ public class Solitaire : MonoBehaviour
     public string[] ranks = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
     public Sprite[] cardFaces,pixelCardFaces,darkCardFaces;
     private Sprite[] faces;
+    private Score score;
     public Sprite cardBack, emptyPlace;
     public GameObject[] foundationPositions, tableauPositions, freecellPositions;
     public GameObject cardPrefab,pausePanel,winPanel,pauseButton;
@@ -23,6 +24,7 @@ public class Solitaire : MonoBehaviour
 
     void Start()
     {
+        score = FindAnyObjectByType<Score>();
         List<Sprite[]> faceList = new List<Sprite[]> { cardFaces, pixelCardFaces, darkCardFaces };
         int i = PlayerPrefs.HasKey("faceIndex") ? PlayerPrefs.GetInt("faceIndex") : 2;
         faces = faceList[i];
@@ -269,11 +271,12 @@ public class Solitaire : MonoBehaviour
         // if moving to foundation, add card to correct foundation
         if (clickedTag.transform.CompareTag("Foundation"))
         {
+            score.AddScore(300);
             int fIndex = System.Array.IndexOf(foundationPositions, clickedTag);
             foundations[fIndex].Add(cardObject.name);
             cardObject.transform.position = targetObject.transform.position + new Vector3(0f, 0f, -.03f);
             cardObject.transform.parent = clickedTag.transform;
-        }
+        } else score.AddScore(-100);
         if (clickedTag.transform.CompareTag("Freecell"))
         {
             int cIndex = System.Array.IndexOf(freecellPositions, clickedTag);
