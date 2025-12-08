@@ -3,12 +3,24 @@ using UnityEngine.InputSystem;
 
 public class SolitaireInput : MonoBehaviour
 {
+    private bool playAnimation;
     private Solitaire solitaire;
-    private GameObject selectedCard = null;
+    private GameObject selectedCard,animCard = null;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         solitaire = FindAnyObjectByType<Solitaire>();
+        playAnimation=false;
+    }
+
+    void Update()
+    {
+        if (playAnimation&&animCard!=null)
+        {
+            animCard.GetComponent<Animator>().SetTrigger("wiggle");
+            playAnimation=false;
+            animCard=null;
+        }
     }
 
     void OnBurst(InputValue value)
@@ -46,7 +58,7 @@ public class SolitaireInput : MonoBehaviour
                 selectedCard = hit.gameObject;
                 selectedCard.GetComponent<SpriteRenderer>().color = Color.gray;
             }
-            if (hit.CompareTag("Tableau"))
+            else if (hit.CompareTag("Tableau"))
             {
                 //Debug.Log("Tableau clicked: " + hit.name);
                 if (solitaire.IsValidMove(selectedCard, hit.gameObject))
@@ -58,9 +70,10 @@ public class SolitaireInput : MonoBehaviour
                     return;
                 }
             }
-            if (hit.CompareTag("Freecell"))
+            else if (hit.CompareTag("Freecell"))
             {
                 //Debug.Log("Free cell clicked: " + hit.name);
+                if(selectedCard==null)return;
                 if (solitaire.IsValidMove(selectedCard, hit.gameObject))
                 {
                     //Debug.Log("valid move from " + selectedCard + " to " + hit.gameObject.name);
@@ -72,21 +85,24 @@ public class SolitaireInput : MonoBehaviour
                 {
                     selectedCard.GetComponent<SpriteRenderer>().color = Color.white;
                     selectedCard = null;
+                    return;
                 }
             }
-            if (hit.CompareTag("Foundation"))
+            else if (hit.CompareTag("Foundation"))
             {
                 //Debug.Log("Foundation clicked: " + hit.name);
                 if (solitaire.IsValidMove(selectedCard, hit.gameObject))
                 {
                     //Debug.Log("valid move from " + selectedCard + " to " + hit.gameObject.name);
                     solitaire.PlaceCard(selectedCard, hit.gameObject);
-                    selectedCard.GetComponent<Animator>().SetTrigger("wiggle");
+                    playAnimation=true;
+                    animCard=selectedCard;
                     selectedCard.GetComponent<SpriteRenderer>().color = Color.white;
                     selectedCard = null;
                     return;
                 }
             }
+            else print("no clicky");
         }
     }
 }

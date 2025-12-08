@@ -214,11 +214,11 @@ public class Solitaire : MonoBehaviour
 
     public void PlaceCard(GameObject cardObject, GameObject targetObject)
     {
+        if(targetObject == null)print("target is null");
+        if(cardObject == null)print("card is null");
+        if(targetObject == cardObject)print("card is target");
         if (cardObject == targetObject || cardObject == null || targetObject == null) return;
-        int originalTabIndex = -1;
-        int cardsToMoveCount = 1;
         ResolveTarget(targetObject, out GameObject clickedTag, out int foundationIndex, out int tabIndex);
-        GameObject originalParent = cardObject.transform.parent.gameObject;
         // if coming from tab, need to remove card and all cards on top of it from their original tab
         if (cardObject.transform.parent.CompareTag("Tableau"))
         {
@@ -226,8 +226,6 @@ public class Solitaire : MonoBehaviour
             {
                 if (tableau.Contains(cardObject.name))
                 {
-                    originalTabIndex = System.Array.IndexOf(tableaus, tableau);
-                    cardsToMoveCount = tableau.Count - tableau.IndexOf(cardObject.name);
                     tableau.Remove(cardObject.name);
                     break;
                 }
@@ -256,7 +254,9 @@ public class Solitaire : MonoBehaviour
         if (clickedTag.transform.CompareTag("Tableau"))
         {
             // add it to the right tab
-            int tableauIndex = System.Array.IndexOf(tableauPositions, clickedTag);
+            int tableauIndex = Array.IndexOf(tableauPositions, clickedTag);
+            print(cardObject.name);
+            print("tableau index: "+tableauIndex);
             tableaus[tableauIndex].Add(cardObject.name);
             // move the card position
             if (tableaus[tableauIndex].Count == 1)
@@ -265,24 +265,29 @@ public class Solitaire : MonoBehaviour
                 cardObject.transform.position = targetObject.transform.position + cardOffset;
             // update parent
             cardObject.transform.parent = clickedTag.transform;
-            // move all other cards on top of the original cardObject (probably put this in a helper function)
-            MoveCardsAbove(originalParent, originalTabIndex, tableauIndex, cardsToMoveCount, clickedTag, cardObject);
+            score.AddScore(-100);
+            return;
         }
         // if moving to foundation, add card to correct foundation
         if (clickedTag.transform.CompareTag("Foundation"))
         {
             score.AddScore(300);
-            int fIndex = System.Array.IndexOf(foundationPositions, clickedTag);
+            int fIndex = Array.IndexOf(foundationPositions, clickedTag);
             foundations[fIndex].Add(cardObject.name);
             cardObject.transform.position = targetObject.transform.position + new Vector3(0f, 0f, -.03f);
             cardObject.transform.parent = clickedTag.transform;
-        } else score.AddScore(-100);
+            return;
+        }
         if (clickedTag.transform.CompareTag("Freecell"))
         {
-            int cIndex = System.Array.IndexOf(freecellPositions, clickedTag);
+            int cIndex = Array.IndexOf(freecellPositions, clickedTag);
+            print(cardObject.name);
+            print("tableau index: "+cIndex);
             freecells[cIndex].Add(cardObject.name);
             cardObject.transform.position = targetObject.transform.position + new Vector3(0f, 0f, -.03f);
             cardObject.transform.parent = clickedTag.transform;
+            score.AddScore(-100);
+            return;
         }
     }
 
